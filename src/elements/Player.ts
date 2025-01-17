@@ -34,7 +34,7 @@ export class Player implements Circle {
     if (this.game.debug) {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.strokeStyle = "blue";
+      ctx.strokeStyle = "red";
       ctx.stroke();
       ctx.closePath();
     }
