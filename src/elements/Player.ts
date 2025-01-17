@@ -1,11 +1,17 @@
 import { Circle } from "../bases/Circle";
 import { Game } from "./Game";
 
+export enum PlayerState {
+  Swim,
+  InPain,
+}
+
 export class Player implements Circle {
   game: Game;
   x: number;
   y: number;
   radius: number = 30;
+  radian = 0;
   imageLeft: HTMLImageElement = document.getElementById(
     "fish-left"
   ) as HTMLImageElement;
@@ -24,6 +30,11 @@ export class Player implements Circle {
   frameInterval = 1000 / this.fps;
   frameTimer = 0;
 
+  state: PlayerState = PlayerState.Swim;
+
+  painTimer = 0;
+  painDuration = 2000;
+
   constructor(game: Game, x: number, y: number) {
     this.game = game;
     this.x = x;
@@ -31,6 +42,7 @@ export class Player implements Circle {
   }
 
   render(ctx: CanvasRenderingContext2D) {
+    if (this.state === PlayerState.InPain) ctx.globalAlpha = 0.5;
     if (this.game.debug) {
       ctx.beginPath();
       ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
@@ -52,9 +64,23 @@ export class Player implements Circle {
       this.width,
       this.height
     );
+
+    ctx.globalAlpha = 1;
   }
 
   update(deltaTime: number) {
+    if (this.state === PlayerState.InPain) {
+      if (this.painTimer > this.painDuration) {
+        this.painTimer = 0;
+        this.state = PlayerState.Swim;
+      } else {
+        this.painTimer += deltaTime;
+        this.radian += 0.05;
+        this.x += Math.sin(this.radian) * 1.2;
+        this.y += Math.cos(this.radian) * 1.2;
+        return;
+      }
+    }
     const dx = this.x - this.game.mouse.x;
     const dy = this.y - this.game.mouse.y;
 

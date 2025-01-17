@@ -1,5 +1,5 @@
 import { Circle } from "../bases/Circle";
-import { circleCollision, randomInIntange } from "../utils";
+import { circleCollision, randomIntInRange } from "../utils";
 import { Game } from "./Game";
 
 export class Bubble implements Circle {
@@ -32,7 +32,7 @@ export class Bubble implements Circle {
     this.x = x;
     this.y = y;
 
-    this.speed = randomInIntange(2, 4);
+    this.speed = randomIntInRange(2, 4);
   }
 
   render(ctx: CanvasRenderingContext2D) {
