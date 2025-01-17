@@ -4,6 +4,7 @@ import { Background } from "./Background";
 import { Ball } from "./Ball";
 import { Bubble } from "./Bubble";
 import { Player } from "./Player";
+import { UI } from "./UI";
 
 export class Game {
   width: number;
@@ -19,9 +20,11 @@ export class Game {
   player: Player;
   bubbles: Bubble[] = [];
   balls: Ball[] = [];
+  ui: UI;
 
   // States
   bubbleSpawnTimer = 0;
+  score = 0;
 
   constructor(canvas: HTMLCanvasElement, width: number, height: number) {
     this.width = width;
@@ -30,6 +33,7 @@ export class Game {
     this.background = new Background(this);
     this.player = new Player(this, this.width / 2, this.height / 2);
     this.mouse = new Mouse(canvas);
+    this.ui = new UI(this);
   }
 
   render(ctx: CanvasRenderingContext2D) {
@@ -48,9 +52,13 @@ export class Game {
     this.bubbles.forEach((bubble) => {
       bubble.render(ctx);
     });
+
+    // Layer 4
+    this.ui.render(ctx);
   }
 
   update(deltaTime: number) {
+    if (this.player.health <= 0) return;
     this.player.update(deltaTime);
 
     this.generateBubble(deltaTime);

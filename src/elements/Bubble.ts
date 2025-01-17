@@ -2,6 +2,8 @@ import { Circle } from "../bases/Circle";
 import { circleCollision, randomIntInRange } from "../utils";
 import { Game } from "./Game";
 
+const pop1 = document.getElementById("pop1") as HTMLAudioElement;
+
 export class Bubble implements Circle {
   x: number;
   y: number;
@@ -68,6 +70,8 @@ export class Bubble implements Circle {
 
   update(deltaTime: number) {
     if (circleCollision(this, this.game.player)) {
+      pop1.play();
+      this.game.score++;
       this.inAnimation = true;
     }
 

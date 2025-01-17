@@ -18,6 +18,8 @@ export class Player implements Circle {
   imageRight: HTMLImageElement = document.getElementById(
     "fish-right"
   ) as HTMLImageElement;
+  health = 5;
+
   frameWidth: number = 498;
   frameHeight: number = 327;
   width: number = 83;
@@ -73,6 +75,7 @@ export class Player implements Circle {
       if (this.painTimer > this.painDuration) {
         this.painTimer = 0;
         this.state = PlayerState.Swim;
+        this.health--;
       } else {
         this.painTimer += deltaTime;
         this.radian += 0.05;
@@ -85,7 +88,7 @@ export class Player implements Circle {
     const dy = this.y - this.game.mouse.y;
 
     if (this.game.mouse.x !== this.x) {
-      this.x -= dx / 30;
+      this.x -= dx / 10;
     }
 
     if (this.game.mouse.y !== this.y) {
