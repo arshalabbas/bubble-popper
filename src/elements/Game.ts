@@ -10,7 +10,7 @@ export class Game {
   mouse: Mouse;
 
   // Settings
-  debug: boolean = false;
+  debug: boolean = true; // DEBUG
   bubbleSpawnInterval = 1000;
 
   // elements
@@ -49,8 +49,8 @@ export class Game {
     this.generateBubble(deltaTime);
 
     this.bubbles.forEach((bubble, index) => {
-      bubble.update();
-      if (bubble.y < -bubble.radius) {
+      bubble.update(deltaTime);
+      if (bubble.toBeDestroyed || bubble.y < -bubble.radius) {
         this.bubbles.splice(index, 1);
         index++;
       }
